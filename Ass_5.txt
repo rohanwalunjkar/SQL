@@ -1,0 +1,189 @@
+mysql> create table Emp1 (id int, name varchar(20), dept_id int primary key, birth date);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc Emp1;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| id      | int         | YES  |     | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
+| dept_id | int         | NO   | PRI | NULL    |       |
+| birth   | date        | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> create table Emp2 (dept_id int primary key, dept_name varchar(30), dept_block varchar(10));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc Emp2;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| dept_id    | int         | NO   | PRI | NULL    |       |
+| dept_name  | varchar(30) | YES  |     | NULL    |       |
+| dept_block | varchar(10) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> show * from Emp1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from Emp1' at line 1
+mysql> select * from Emp1;
++------+--------------+---------+------------+
+| id   | name         | dept_id | birth      |
++------+--------------+---------+------------+
+|    1 | Maria Gloria |       2 | 1994-03-12 |
++------+--------------+---------+------------+
+1 row in set (0.00 sec)
+
+mysql> alter table Emp1 drop primary key;
+Query OK, 1 row affected (0.06 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+mysql> select * from Emp1;
++------+--------------+---------+------------+
+| id   | name         | dept_id | birth      |
++------+--------------+---------+------------+
+|    1 | Maria Gloria |       2 | 1994-03-12 |
++------+--------------+---------+------------+
+1 row in set (0.00 sec)
+
+mysql> insert into Emp1 values (2, "John Smith", 1, "1993-02-07"), (3, "Gal Rao", 4, "1992-09-11"), (4, "Jakey Smith", 2, "1990-08-31"), (5, "Rama Saho", 1, "1994-12-09");
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from Emp1;
++------+--------------+---------+------------+
+| id   | name         | dept_id | birth      |
++------+--------------+---------+------------+
+|    1 | Maria Gloria |       2 | 1994-03-12 |
+|    2 | John Smith   |       1 | 1993-02-07 |
+|    3 | Gal Rao      |       4 | 1992-09-11 |
+|    4 | Jakey Smith  |       2 | 1990-08-31 |
+|    5 | Rama Saho    |       1 | 1994-12-09 |
+|    6 | Maria Gaga   |       4 | 1993-10-09 |
++------+--------------+---------+------------+
+6 rows in set (0.00 sec)
+
+mysql> create table Empl2 (dept_id int, dept_name varchar(30), dept_block varchar(10));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into Empl2 values (1, "Computer Science", "B-Block"), (2, "Information Technology", "C-Block"), (3, "Mechanical", "A-Block");
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> insert into Empl2 values (4, "Electronic Communication", "D-Block");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from Empl2;
++---------+--------------------------+------------+
+| dept_id | dept_name                | dept_block |
++---------+--------------------------+------------+
+|       1 | Computer Science         | B-Block    |
+|       2 | Information Technology   | C-Block    |
+|       3 | Mechanical               | A-Block    |
+|       4 | Electronic Communication | D-Block    |
++---------+--------------------------+------------+
+4 rows in set (0.01 sec)
+
+mysql> select name, birth, dept_name, dept_block from Emp1 inner join Empl2 on Emp1.dept_id=Empl2.dept_id;
++--------------+------------+--------------------------+------------+
+| name         | birth      | dept_name                | dept_block |
++--------------+------------+--------------------------+------------+
+| Maria Gloria | 1994-03-12 | Information Technology   | C-Block    |
+| John Smith   | 1993-02-07 | Computer Science         | B-Block    |
+| Gal Rao      | 1992-09-11 | Electronic Communication | D-Block    |
+| Jakey Smith  | 1990-08-31 | Information Technology   | C-Block    |
+| Rama Saho    | 1994-12-09 | Computer Science         | B-Block    |
+| Maria Gaga   | 1993-10-09 | Electronic Communication | D-Block    |
++--------------+------------+--------------------------+------------+
+6 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+mysql> create table stud1 (id int, name varchar(10), dept_id int, birth date);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into stud1 values (1, "Maria", 2, "1994-03-12"), (2, "John", 1, "1993-03-12"), (3, "Gal", 4, "1992-09-11"), (4, "Jakey", 2, "1990-08-31");
+Query OK, 4 rows affected (0.00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> insert into stud1 values (5, "Rama", 1, "1994-12-09"), (6, "Maria", 4, "1993-10-09");
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from stud1;
++------+-------+---------+------------+
+| id   | name  | dept_id | birth      |
++------+-------+---------+------------+
+|    1 | Maria |       2 | 1994-03-12 |
+|    2 | John  |       1 | 1993-03-12 |
+|    3 | Gal   |       4 | 1992-09-11 |
+|    4 | Jakey |       2 | 1990-08-31 |
+|    5 | Rama  |       1 | 1994-12-09 |
+|    6 | Maria |       4 | 1993-10-09 |
++------+-------+---------+------------+
+6 rows in set (0.00 sec)
+
+mysql> select name from stud1 where name like '____a';
++-------+
+| name  |
++-------+
+| Maria |
+| Maria |
++-------+
+2 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+
+mysql> create table stud2 (id int, name varchar(20), department varchar(5), birth date);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into stud2 values (1, "Maria Gloria", "CS", "1994-03-12"), (2, "John Smith", "IT", "1993-02-07"), (3, "Gal Rao", "CS", "1992-09-11");
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> insert into stud2 values (4, "Jakey Smith", "EC", "1990-08-31"), (5, "Rama Saho", "IT", "1994-12-09"), (6, "Maria Gaga", "EC", "1993-10-09");
+Query OK, 3 rows affected (0.00 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+mysql> select * from stud2;
++------+--------------+------------+------------+
+| id   | name         | department | birth      |
++------+--------------+------------+------------+
+|    1 | Maria Gloria | CS         | 1994-03-12 |
+|    2 | John Smith   | IT         | 1993-02-07 |
+|    3 | Gal Rao      | CS         | 1992-09-11 |
+|    4 | Jakey Smith  | EC         | 1990-08-31 |
+|    5 | Rama Saho    | IT         | 1994-12-09 |
+|    6 | Maria Gaga   | EC         | 1993-10-09 |
++------+--------------+------------+------------+
+6 rows in set (0.00 sec)
+
+mysql> select *,date_format(from_days(datediff(now(0),birth)),'%Y') as age from stud2;
++------+--------------+------------+------------+------+
+| id   | name         | department | birth      | age  |
++------+--------------+------------+------------+------+
+|    1 | Maria Gloria | CS         | 1994-03-12 | 0030 |
+|    2 | John Smith   | IT         | 1993-02-07 | 0031 |
+|    3 | Gal Rao      | CS         | 1992-09-11 | 0031 |
+|    4 | Jakey Smith  | EC         | 1990-08-31 | 0033 |
+|    5 | Rama Saho    | IT         | 1994-12-09 | 0029 |
+|    6 | Maria Gaga   | EC         | 1993-10-09 | 0030 |
++------+--------------+------------+------------+------+
+6 rows in set (0.01 sec)
+
