@@ -1,0 +1,333 @@
+// Q1 SQL QUERY TO FETCH EMPLOYEE DETAILS WHOSE NAME STARTS WITH 'P' :
+
+mysql> select * from Employee where empname like 'P%';
++-------+---------+------------+------------+-----------------+-----------+
+| empid | empname | department | contactno  | emailid         | empheadid |
++-------+---------+------------+------------+-----------------+-----------+
+|   102 | Priya   | E-104      | 1234567890 | priya@yahoo.com |       103 |
++-------+---------+------------+------------+-----------------+-----------+
+1 row in set (0.00 sec)
+
+//Q2 SQL QUERY TO FIND NUMBER OF EMPLOYEE HAVING SALARY > 5000 AND ALSO IS PERMANENT
+
+mysql> select count(empid) from EmpSalary where salary > 4000 && isperm="yes";
++--------------+
+| count(empid) |
++--------------+
+|            1 |
++--------------+
+1 row in set, 1 warning (0.01 sec)
+
+
+//Q3 SQL QUERY TO FIND DETAILS OF EMPLOYEE WHOSE EMAILID IS IN GMAIL
+
+mysql> select * from Employee where emailid like '%@gmail.com';
++-------+----------+------------+------------+--------------------+-----------+
+| empid | empname  | department | contactno  | emailid            | empheadid |
++-------+----------+------------+------------+--------------------+-----------+
+|   101 | Isha     | E-101      | 1234567890 | isha@gmail.com     |       105 |
+|   103 | Neha     | E-101      | 1234567890 | neha@gmail.com     |       101 |
+|   105 | Abhishek | E-101      | 1234567890 | abhishek@gmail.com |       102 |
++-------+----------+------------+------------+--------------------+-----------+
+3 rows in set (0.00 sec)
+
+//Q4 SQL QUERY TO FIND DETAILS OF EMPLOYEE WHO WORKS IN E-102 OR E-104
+
+mysql> select * from Employee where department in ("E-102","E-104");
++-------+---------+------------+------------+-----------------+-----------+
+| empid | empname | department | contactno  | emailid         | empheadid |
++-------+---------+------------+------------+-----------------+-----------+
+|   102 | Priya   | E-104      | 1234567890 | priya@yahoo.com |       103 |
+|   104 | Rahul   | E-102      | 1234567890 | rahul@yahoo.com |       105 |
++-------+---------+------------+------------+-----------------+-----------+
+2 rows in set (0.00 sec)
+
+//Q5 SQL QUERY TO FIND NAME OF DEPARTMENT WHOSE DEPTID IS E-102
+
+mysql> select deptname from EmpDept where deptid="E-102";
++-------------+
+| deptname    |
++-------------+
+| Development |
++-------------+
+1 row in set (0.00 sec)
+
+
+//Q6 SQL QUERY TO FIND TOTAL SALARY PAID TO PERMANENT EMPLOYEE
+
+mysql> select sum(salary) from EmpSalary where isperm="Yes";
++-------------+
+| sum(salary) |
++-------------+
+|       16200 |
++-------------+
+1 row in set (0.00 sec)
+
+//Q7 SQL QUERY TO FETCH DETAILS OF EMPLOYEE WHOSE NAME ENDS WITH a
+
+mysql> select * from Employee where empname like '%a';
++-------+---------+------------+------------+-----------------+-----------+
+| empid | empname | department | contactno  | emailid         | empheadid |
++-------+---------+------------+------------+-----------------+-----------+
+|   101 | Isha    | E-101      | 1234567890 | isha@gmail.com  |       105 |
+|   102 | Priya   | E-104      | 1234567890 | priya@yahoo.com |       103 |
+|   103 | Neha    | E-101      | 1234567890 | neha@gmail.com  |       101 |
++-------+---------+------------+------------+-----------------+-----------+
+3 rows in set (0.00 sec)
+
+// Q8 SQL QUERY TO FIND NO OF EMPLOYEES IN EACH DEPARTMENT
+
+mysql> select ed.deptname,count(e.department) as No_of_Emp from Employee as e inner join EmpDept as ed where e.department=ed.deptid group by ed.deptname;
++-------------+-----------+
+| deptname    | No_of_Emp |
++-------------+-----------+
+| HR          |         3 |
+| Development |         1 |
+| Sales       |         1 |
++-------------+-----------+
+3 rows in set (0.00 sec)
+
+//Q9 SQL QUERY TO FIND HOW MANY PROJECT STARTED IN 2010
+
+mysql> select count(startyear) from EmpProject where startyear=2010;
++------------------+
+| count(startyear) |
++------------------+
+|                2 |
++------------------+
+1 row in set (0.00 sec)
+
+//Q10 SQL QUERY TO FIND HOW MANY PROJECT STARTED AND ENDED IN SAME YEAR
+
+mysql> select count(startyear) from EmpProject where startyear=endyear ;
++------------------+
+| count(startyear) |
++------------------+
+|                1 |
++------------------+
+1 row in set (0.00 sec)
+
+//Q11 SQL QUERY TO FIND NAME OF EMPLOYEE WHOSE 3RD CHARACTER IS H
+
+mysql> select empname from Employee where empname like '__h%';
++----------+
+| empname  |
++----------+
+| Isha     |
+| Neha     |
+| Rahul    |
+| Abhishek |
++----------+
+4 rows in set (0.00 sec)
+
+// Q12 SQL QUERY TO FIND NAME OF DEPARTMENT FOR THE EMPLOYEE WHOSE ID > 103 :
+
+mysql> select a.deptname from EmpDept as a inner join Employee where a.deptid=Employee.department && Employee.empid > 103;;
++-------------+
+| deptname    |
++-------------+
+| HR          |
+| Development |
++-------------+
+2 rows in set, 1 warning (0.00 sec)
+
+// Q13 SQL QUERY TO FETCH DETAILS OF EMPLOYEES WORKING UNDER ABHISHEK :
+
+mysql> select * from Employee where empheadid=(select empid from Employee where empname="Abhishek");
++-------+---------+------------+------------+-----------------+-----------+
+| empid | empname | department | contactno  | emailid         | empheadid |
++-------+---------+------------+------------+-----------------+-----------+
+|   101 | Isha    | E-101      | 1234567890 | isha@gmail.com  |       105 |
+|   104 | Rahul   | E-102      | 1234567890 | rahul@yahoo.com |       105 |
++-------+---------+------------+------------+-----------------+-----------+
+2 rows in set (0.00 sec)
+
+// Q14 SQL QUERY TO FIND NAME OF EMPLOYEE WHO IS DEPT HEAD OF HR :
+
+mysql> select empname from Employee inner join EmpDept where Employee.empid=EmpDept.depthead && EmpDept.deptname="HR";
++----------+
+| empname  |
++----------+
+| Abhishek |
+
+// Q15 SQL QUERY TO FETCH DETAILS OF EMPLOYEE HEADS WHO ARE PERMANENT
+
+mysql> select *from Employee where empid in (select es.empid from Employee as e inner join EmpSalary as es where (e.empheadid=es.empid && es.isperm="Yes"));
++-------+----------+------------+------------+--------------------+-----------+
+| empid | empname  | department | contactno  | emailid            | empheadid |
++-------+----------+------------+------------+--------------------+-----------+
+|   105 | Abhishek | E-101      | 1234567890 | abhishek@gmail.com |       102 |
+|   101 | Isha     | E-101      | 1234567890 | isha@gmail.com     |       105 |
+|   102 | Priya    | E-104      | 1234567890 | priya@yahoo.com    |       103 |
++-------+----------+------------+------------+--------------------+-----------+
+3 rows in set, 1 warning (0.00 sec)
+
+
+// Q16 SQL QUERY TO FIND NAME AND EMAIL OF OF DEPT HEAD WHO IS NOT PERMANENT :
+
+mysql> select empname, emailid from Employee where empid in (select ed.depthead from EmpDept as ed inner join EmpSalary as es where ed.depthead=es.empid && es.isperm="Yes");
++----------+--------------------+
+| empname  | emailid            |
++----------+--------------------+
+| Abhishek | abhishek@gmail.com |
+| Isha     | isha@gmail.com     |
+| Rahul    | rahul@yahoo.com    |
++----------+--------------------+
+3 rows in set, 1 warning (0.00 sec)
+
+
+
+
+//Q17 SQL QUERY TO FIND DETAILS OF DEPARTMENT HEAD WHOSE DEPT_OFF IS MO0NDAY
+
+mysql> select * from Employee as a inner join EmpDept as d where a.empid=d.depthead && d.deptoff="Monday";
++-------+----------+------------+------------+--------------------+-----------+--------+----------+---------+----------+
+| empid | empname  | department | contactno  | emailid            | empheadid | deptid | deptname | deptoff | depthead |
++-------+----------+------------+------------+--------------------+-----------+--------+----------+---------+----------+
+|   105 | Abhishek | E-101      | 1234567890 | abhishek@gmail.com |       102 | E-101  | HR       | Monday  |      105 |
++-------+----------+------------+------------+--------------------+-----------+--------+----------+---------+----------+
+1 row in set, 1 warning (0.00 sec)
+
+
+// Q18 SQL QUERY TO FIND INDIAN CLIENT DETAILS
+
+mysql> SELECT * FROM client as c inner join country as cc where c.cid=cc.cid && cc.cname="india";
++----------+------------+------+------+-------+
+| clientid | clientname | cid  | cid  | cname |
++----------+------------+------+------+-------+
+| cl1      | abcgroup   | c1   | c1   | India |
+| cl2      | pqr        | c1   | c1   | India |
++----------+------------+------+------+-------+
+2 rows in set, 1 warning (0.00 sec)
+
+//Q19 SQL QUERY TO SELECT DETAILS OF EMPLOYEE WORKING INDER DEVELOPMENT DEPARTMENT
+mysql> SELECT * FROM Employee as e inner join EmpDept as ed where e.empid=ed.depthead && ed.deptname="development";
++-------+---------+------------+------------+----------------+-----------+--------+-------------+---------+----------+
+| empid | empname | department | contactno  | emailid        | empheadid | deptid | deptname    | deptoff | depthead |
++-------+---------+------------+------------+----------------+-----------+--------+-------------+---------+----------+
+|   101 | Isha    | E-101      | 1234567890 | isha@gmail.com |       105 | E-102  | Development | Tuesday |      101 |
++-------+---------+------------+------------+----------------+-----------+--------+-------------+---------+----------+
+1 row in set, 1 warning (0.00 sec)
+
+// Q20 CREATE PROCEDURE TO CALCULATE AVERAGE SALARY OF EMPLOYEES :
+
+mysql> delimiter &&
+begin
+select avg(salary) as AVG from EmpSalary;
+mysql> create procedure get_sal()
+    -> begin
+    -> select avg(salary) as AVG from EmpSalary;
+    -> end
+    -> &&
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> delimiter ;
+mysql> call get_sal();
++-----------+
+| AVG       |
++-----------+
+| 4240.0000 |
++-----------+
+1 row in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+
+// Q21 SQL QUERY TO INNER JOIN TWO TABLE
+
+mysql> SELECT * FROM Employee as e inner join EmpDept as ed;
++-------+----------+------------+------------+--------------------+-----------+--------+--------------+----------+----------+
+| empid | empname  | department | contactno  | emailid            | empheadid | deptid | deptname     | deptoff  | depthead |
++-------+----------+------------+------------+--------------------+-----------+--------+--------------+----------+----------+
+|   105 | Abhishek | E-101      | 1234567890 | abhishek@gmail.com |       102 | E-101  | HR           | Monday   |      105 |
+|   104 | Rahul    | E-102      | 1234567890 | rahul@yahoo.com    |       105 | E-101  | HR           | Monday   |      105 |
+|   103 | Neha     | E-101      | 1234567890 | neha@gmail.com     |       101 | E-101  | HR           | Monday   |      105 |
+|   102 | Priya    | E-104      | 1234567890 | priya@yahoo.com    |       103 | E-101  | HR           | Monday   |      105 |
+|   101 | Isha     | E-101      | 1234567890 | isha@gmail.com     |       105 | E-101  | HR           | Monday   |      105 |
+|   105 | Abhishek | E-101      | 1234567890 | abhishek@gmail.com |       102 | E-102  | Development  | Tuesday  |      101 |
+|   104 | Rahul    | E-102      | 1234567890 | rahul@yahoo.com    |       105 | E-102  | Development  | Tuesday  |      101 |
+|   103 | Neha     | E-101      | 1234567890 | neha@gmail.com     |       101 | E-102  | Development  | Tuesday  |      101 |
+|   102 | Priya    | E-104      | 1234567890 | priya@yahoo.com    |       103 | E-102  | Development  | Tuesday  |      101 |
+|   101 | Isha     | E-101      | 1234567890 | isha@gmail.com     |       105 | E-102  | Development  | Tuesday  |      101 |
+|   105 | Abhishek | E-101      | 1234567890 | abhishek@gmail.com |       102 | E-103  | Housekeeping | Saturday |      103 |
+|   104 | Rahul    | E-102      | 1234567890 | rahul@yahoo.com    |       105 | E-103  | Housekeeping | Saturday |      103 |
+|   103 | Neha     | E-101      | 1234567890 | neha@gmail.com     |       101 | E-103  | Housekeeping | Saturday |      103 |
+|   102 | Priya    | E-104      | 1234567890 | priya@yahoo.com    |       103 | E-103  | Housekeeping | Saturday |      103 |
+|   101 | Isha     | E-101      | 1234567890 | isha@gmail.com     |       105 | E-103  | Housekeeping | Saturday |      103 |
+|   105 | Abhishek | E-101      | 1234567890 | abhishek@gmail.com |       102 | E-104  | Sales        | Sunday   |      104 |
+|   104 | Rahul    | E-102      | 1234567890 | rahul@yahoo.com    |       105 | E-104  | Sales        | Sunday   |      104 |
+|   103 | Neha     | E-101      | 1234567890 | neha@gmail.com     |       101 | E-104  | Sales        | Sunday   |      104 |
+|   102 | Priya    | E-104      | 1234567890 | priya@yahoo.com    |       103 | E-104  | Sales        | Sunday   |      104 |
+|   101 | Isha     | E-101      | 1234567890 | isha@gmail.com     |       105 | E-104  | Sales        | Sunday   |      104 |
+|   105 | Abhishek | E-101      | 1234567890 | abhishek@gmail.com |       102 | E-105  | Purchase     | Tuesday  |      104 |
+|   104 | Rahul    | E-102      | 1234567890 | rahul@yahoo.com    |       105 | E-105  | Purchase     | Tuesday  |      104 |
+|   103 | Neha     | E-101      | 1234567890 | neha@gmail.com     |       101 | E-105  | Purchase     | Tuesday  |      104 |
+|   102 | Priya    | E-104      | 1234567890 | priya@yahoo.com    |       103 | E-105  | Purchase     | Tuesday  |      104 |
+|   101 | Isha     | E-101      | 1234567890 | isha@gmail.com     |       105 | E-105  | Purchase     | Tuesday  |      104 |
++-------+----------+------------+------------+--------------------+-----------+--------+--------------+----------+----------+
+25 rows in set (0.00 sec)
+
+// Q22 SQL QUERY TO TO CREATE COPY OF EMPLOYEE TABLE AND FIND UNION DIFFERENCE INTERSECT
+
+mysql> select * from Employee union select * from Employee_cpy;
++-------+----------+------------+------------+--------------------+-----------+
+| empid | empname  | department | contactno  | emailid            | empheadid |
++-------+----------+------------+------------+--------------------+-----------+
+|   101 | Isha     | E-101      | 1234567890 | isha@gmail.com     |       105 |
+|   102 | Priya    | E-104      | 1234567890 | priya@yahoo.com    |       103 |
+|   103 | Neha     | E-101      | 1234567890 | neha@gmail.com     |       101 |
+|   104 | Rahul    | E-102      | 1234567890 | rahul@yahoo.com    |       105 |
+|   105 | Abhishek | E-101      | 1234567890 | abhishek@gmail.com |       102 |
+|   106 | Ram      | E-103      | 1234567890 | ram@yahoo.com      |       102 |
+|   107 | Sham     | E-102      | 1234567890 | sham@gmail.com     |       104 |
+|   108 | John     | E-105      | 1234567890 | john@gmail.com     |       105 |
++-------+----------+------------+------------+--------------------+-----------+
+8 rows in set (0.01 sec)
+
+mysql> select * from Employee intersect select * from Employee_cpy;
++-------+----------+------------+------------+--------------------+-----------+
+| empid | empname  | department | contactno  | emailid            | empheadid |
++-------+----------+------------+------------+--------------------+-----------+
+|   101 | Isha     | E-101      | 1234567890 | isha@gmail.com     |       105 |
+|   102 | Priya    | E-104      | 1234567890 | priya@yahoo.com    |       103 |
+|   103 | Neha     | E-101      | 1234567890 | neha@gmail.com     |       101 |
+|   104 | Rahul    | E-102      | 1234567890 | rahul@yahoo.com    |       105 |
+|   105 | Abhishek | E-101      | 1234567890 | abhishek@gmail.com |       102 |
++-------+----------+------------+------------+--------------------+-----------+
+5 rows in set (0.00 sec)
+
+// Q23 SQL QUERY TO CREATE PROCEDURE TO PASS EMPID AS INPUT AND GENERATE HIS ID, SALARY, CONTACTNO & DEPARTMENT AS OUTPUT;
+
+
+
+// Q24 SQL QUERY TO CREATE A VIEW FOR CLIENT NAME, PROJ ID, START AND END YEAR
+
+mysql> create view view1 as select a.clientname, b.projid, b.startyear, b.endyear from client as a inner join EmpProject as b where a.clientid=b.clientid;
+mysql> select * from view1;
++------------+--------+-----------+---------+
+| clientname | projid | startyear | endyear |
++------------+--------+-----------+---------+
+| abcgroup   | P1     |      2010 |    2010 |
+| pqr        | P2     |      2010 |    2012 |
+| xyz        | P1     |      2013 |    NULL |
+| abcgroup   | P4     |      2014 |    2015 |
+| map        | P4     |      2015 |    NULL |
++------------+--------+-----------+---------+
+5 rows in set (0.00 sec)
+
+// Q25 SQL QUERY TO CALCULATE AVG SALARIES OF PERMANENT EMPLOYEE :
+
+mysql> select avg(salary) from EmpSalary where isperm="Yes" ;
++-------------+
+| avg(salary) |
++-------------+
+|   4050.0000 |
++-------------+
+1 row in set (0.00 sec)
+
+
+
+
+ 
+
+

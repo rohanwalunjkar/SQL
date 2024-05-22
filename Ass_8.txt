@@ -1,0 +1,117 @@
+// Q1 SQL QUERY TO CREATE A PROCEDURE TO PASS RANGE IN STUDENT TABLE ANG GET THE NAME OF STUDENT WHOSE MARKS LIES IN THAT RANGE :
+
+mysql> select * from student;
++------+---------+-------+------+-------+
+| roll | name    | marks | age  | class |
++------+---------+-------+------+-------+
+|    1 | rohan   | 99.99 |   23 | d2    |
+|    2 | shubham | 89.12 |   25 | d2    |
+|    3 | pratik  | 88.55 |   25 | d1    |
+|    4 | viraj   | 85.45 |   25 | d3    |
+|    5 | suraj   | 99.85 |   23 | d1    |
+|    6 | viraj   | 85.23 |   24 | d1    |
+|    7 | kartik  | 72.34 |   26 | d3    |
++------+---------+-------+------+-------+
+7 rows in set (0.00 sec)
+
+mysql> create procedure get_student(in r1 int, in r2 int)
+    -> begin
+    -> select name from student where marks between r1 and r2;
+    -> end
+    -> &&
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call get_student(70,89);
++--------+
+| name   |
++--------+
+| pratik |
+| viraj  |
+| viraj  |
+| kartik |
++--------+
+4 rows in set (0.00 sec)
+
+// Q2 SQL QUERY TO CREATE A PROCEDURE TO PRINT SUMMARY OF STUDENT :
+
+mysql> delimiter #
+mysql> create procedure summary()
+    -> begin
+    -> select avg(marks) as Average,sum(marks) as Sum, min(marks) as Min,max(marks) as Max from student;
+    -> end
+    -> #
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> 
+mysql> call summary();
++------------------+-------------------+-------+-------+
+| Average          | Sum               | Min   | Max   |
++------------------+-------------------+-------+-------+
+| 88.6471426827567 | 620.5299987792969 | 72.34 | 99.99 |
++------------------+-------------------+-------+-------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+// Q3 SQL QUERY TO CREATE A PROCEDURE TO PASS THE ROLL NO AND GET THE MARKS OF THE SAME STUDENT :
+
+mysql> delimiter &&
+mysql> create procedure get_marks(in r int)
+    -> select marks from student where roll=r;
+    -> end
+    -> &&
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call get_marks(2);
++-------+
+| marks |
++-------+
+| 89.12 |
++-------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+// Q4 SQL QUERY TO CREATE A PROCEDURE TO PASS MIN AND MAX ROLL NO AND OUTPUT THE AVERAGE OF MARKS IN BETWEEN THEM :
+
+mysql> create procedure get_avg(in min int, in max int, out avg float)
+    -> begin
+    -> select avg(marks) into avg from student where roll between min and max;
+    -> end &&
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call get_avg(1, 6, @avg);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select @avg;
++-------------------+
+| @avg              |
++-------------------+
+| 91.36499786376953 |
++-------------------+
+1 row in set (0.00 sec)
+
+// Q5 SQL QUERY TO CREATE PROCEDURE TO FIND COUNT OF STUDENTS WHOSE MARKS ARE BELOW 80% :
+
+mysql> DELIMITER #
+mysql> create procedure count_student(in m int)
+    -> begin
+    -> select count(marks) from student where marks<m;
+    -> end
+    -> #
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMITER ;
+mysql> call count_student(80);
++--------------+
+| count(marks) |
++--------------+
+|            1 |
++--------------+
+1 row in set (0.00 sec)
+
